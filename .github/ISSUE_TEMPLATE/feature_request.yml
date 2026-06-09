@@ -1,0 +1,27 @@
+name: Feature request
+description: Propose a community bot capability.
+title: "feat: "
+labels:
+  - type/feature
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What community workflow should this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Describe the command, adapter, or automation.
+    validations:
+      required: true
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety and platform constraints
+      description: Include official API support, rate limits, privacy, and moderation impact.
+    validations:
+      required: true
