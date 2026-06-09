@@ -50,11 +50,25 @@ func (s *Server) healthz(w http.ResponseWriter, _ *http.Request) {
 }
 
 func (s *Server) readyz(w http.ResponseWriter, _ *http.Request) {
-	status := "degraded"
-	if s.cfg.QQAppID != "" && s.cfg.QQAppSecret != "" {
-		status = "ready"
+	integrations := map[string]string{
+		"github_webhook": "optional",
+		"llm":            "missing",
+		"qq_bot":         "missing",
+		"wechat":         "manual-or-open-api",
 	}
-	writeJSON(w, http.StatusOK, map[string]string{"status": status})
+	if s.cfg.GitHubWebhookSecret != "" {
+		integrations["github_webhook"] = "signature-verification-enabled"
+	}
+	if s.cfg.LLM.Configured() {
+		integrations["llm"] = "configured"
+	}
+	if s.cfg.QQAppID != "" && s.cfg.QQAppSecret != "" {
+		integrations["qq_bot"] = "configured"
+	}
+	writeJSON(w, http.StatusOK, map[string]any{
+		"status":       "ready",
+		"integrations": integrations,
+	})
 }
 
 func (s *Server) githubWebhook(w http.ResponseWriter, r *http.Request) {

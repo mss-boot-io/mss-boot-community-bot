@@ -15,10 +15,11 @@
 ## 当前能力
 
 - `GET /healthz`：存活检查。
-- `GET /readyz`：就绪检查，未配置 QQ 凭据时返回 `degraded`。
+- `GET /readyz`：就绪检查，并返回各集成项配置状态。
 - `POST /webhooks/github`：GitHub webhook 接入，可选校验 `X-Hub-Signature-256`。
 - `POST /webhooks/qq`：QQ 官方机器人适配入口，后续 PR 完成签名校验和事件解析。
 - `POST /policy/evaluate`：社群消息安全策略判断。
+- OpenAI-compatible 大模型客户端，支持 `/v1/chat/completions` 格式的供应商。
 
 ## 安全边界
 
@@ -45,7 +46,8 @@ MSS_BOT_ADDR=:8080 go run ./cmd/mss-boot-community-bot
 
 1. 接入 QQ 官方机器人签名校验和事件解析。
 2. 接入微信对话开放平台，优先支持公众号、H5 或开放 API 入口。
-3. 实现 `/help`、`/docs`、`/issue`、`/discussion`、`/latest` 指令。
-4. 接入 GitHub Discussions / Issues 检索。
-5. 增加引用来源、不确定性提示、频率限制、日志脱敏和人工接管。
-6. QQ 沙箱或微信官方入口验证通过后再发布部署清单。
+3. 接入 OpenAI 通用 API 格式的大模型配置，支持 `base_url`、`api_key`、`model`、超时和生成参数。
+4. 实现 `/help`、`/docs`、`/issue`、`/discussion`、`/latest` 指令。
+5. 接入 GitHub Discussions / Issues 检索。
+6. 增加引用来源、不确定性提示、频率限制、日志脱敏和人工接管。
+7. QQ 沙箱或微信官方入口验证通过后再发布部署清单。

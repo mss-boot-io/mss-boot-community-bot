@@ -24,13 +24,13 @@ small service with explicit safety boundaries.
 ## Current Capabilities
 
 - `GET /healthz`: liveness probe.
-- `GET /readyz`: readiness signal. It reports `degraded` until QQ credentials
-  are configured.
+- `GET /readyz`: readiness signal with configured integration status.
 - `POST /webhooks/github`: GitHub webhook intake with optional
   `X-Hub-Signature-256` verification.
 - `POST /webhooks/qq`: placeholder endpoint for the official QQ bot adapter.
 - `POST /policy/evaluate`: local safety policy evaluation for community
   messages.
+- OpenAI-compatible LLM client for `/v1/chat/completions` providers.
 
 ## Safety Boundaries
 
@@ -71,17 +71,24 @@ curl -X POST http://localhost:8080/policy/evaluate \
 | `MSS_BOT_GITHUB_WEBHOOK_SECRET` | No | Enables GitHub webhook signature verification. |
 | `MSS_BOT_QQ_APP_ID` | For QQ | Official QQ bot app ID. |
 | `MSS_BOT_QQ_APP_SECRET` | For QQ | Official QQ bot app secret. |
+| `MSS_BOT_LLM_BASE_URL` | For AI replies | OpenAI-compatible API base URL. Defaults to `https://api.openai.com/v1`. |
+| `MSS_BOT_LLM_API_KEY` | For AI replies | API key sent as `Authorization: Bearer ...`. |
+| `MSS_BOT_LLM_MODEL` | For AI replies | Chat model name, such as an OpenAI-compatible provider model ID. |
+| `MSS_BOT_LLM_TIMEOUT` | No | LLM request timeout. Defaults to `30s`. |
+| `MSS_BOT_LLM_TEMPERATURE` | No | LLM generation temperature. Defaults to `0.2`. |
+| `MSS_BOT_LLM_MAX_TOKENS` | No | LLM max output tokens. Defaults to `1024`. |
 
 ## Roadmap
 
 1. Add QQ official bot signature verification and event parsing.
 2. Add a WeChat Conversation Open Platform adapter for official account, H5, or
    Open API entry points.
-3. Implement `/help`, `/docs`, `/issue`, `/discussion`, and `/latest` commands.
-4. Add GitHub Discussions and Issues search backed by public repository data.
-5. Add response citations and uncertainty handling.
-6. Add rate limits, audit logs with redaction, and maintainer handoff.
-7. Publish deployment manifests after the first real QQ sandbox or WeChat entry
+3. Wire the OpenAI-compatible LLM client into guarded project-answer flows.
+4. Implement `/help`, `/docs`, `/issue`, `/discussion`, and `/latest` commands.
+5. Add GitHub Discussions and Issues search backed by public repository data.
+6. Add response citations and uncertainty handling.
+7. Add rate limits, audit logs with redaction, and maintainer handoff.
+8. Publish deployment manifests after the first real QQ sandbox or WeChat entry
    verification.
 
 ## License

@@ -22,5 +22,6 @@
 
 - 使用 Go 标准库建立最小 HTTP 服务。
 - 先实现 health/readiness、GitHub webhook、QQ webhook 占位和消息安全策略。
+- 大模型接入必须使用 OpenAI 通用 API 格式，不绑定单一厂商；配置项包括 `base_url`、`api_key`、`model`、超时、temperature 和 max_tokens。
 - 不提前引入 QQ SDK 或第三方依赖，等 QQ 沙箱验证和官方接入细节确定后通过 PR 增加。
 - CI 必须至少运行 `go test ./...`，并配置 CodeQL、Scorecard、Dependabot。
